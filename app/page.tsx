@@ -23,8 +23,11 @@ export default function SimplexCalculator() {
   ])
   const [constraintValues, setConstraintValues] = useState<number[]>([6, 10])
   const [constraintTypes, setConstraintTypes] = useState<string[]>(["<=", "<="])
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [tableaus, setTableaus] = useState<any[]>([])
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [solution, setSolution] = useState<any>(null)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [standardizedProblem, setStandardizedProblem] = useState<any>(null)
   const [error, setError] = useState<string | null>(null)
   const [activeTab, setActiveTab] = useState<string>("input")
@@ -96,8 +99,13 @@ export default function SimplexCalculator() {
       setSolution(resultSolution)
       setStandardizedProblem(standardizedForm)
       setActiveTab("standardized")
-    } catch (err: any) {
-      setError(err.message || "Ocurrió un error al resolver el problema")
+      
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message)
+      } else {
+        setError("Ocurrió un error al resolver el problema")
+      }
     }
   }
 
